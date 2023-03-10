@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "deploy": "cd src && npx ts-node deploy.ts",
+    "compile": "cd src/contract && npx func-js stdlib.fc game.fc --boc game.cell",
+    "test": "cd test && npx jest game"
   },
   "author": "",
   "license": "ISC",
