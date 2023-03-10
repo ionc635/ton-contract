@@ -20,7 +20,7 @@ async function main() {
   const walletSender = walletContract.sender(key.secretKey);
   const seqno = await walletContract.getSeqno();
 
-  const gameAddress = Address.parse('EQDJIo_4HbQMav5asyzrikaKEAyJ8OZeBMayluYS6SZm5nvH');
+  const gameAddress = Address.parse('');
   const game = new Game(gameAddress);
   const gameContract = client.open(game);
 
