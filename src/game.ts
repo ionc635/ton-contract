@@ -14,8 +14,8 @@ import {
   SendMode,
 } from 'ton-core';
 
-const DEFAULT_VALUE = '0.3';
-const VALUE_FOR_SEND = '0.02';
+const DEFAULT_VALUE = '0.01';
+const VALUE_FOR_SEND = '0.003';
 
 export type Result = {
   address: Address;
