@@ -61,11 +61,10 @@ _ recv_internal(int balance, int msg_value, cell in_msg_full, slice in_msg_body)
   slice sender_addr = cs~load_msg_addr();
   var (owner, _, _, _) = load_data();
 
-  throw_if(36, ~ equal_slice_bits(owner, sender_addr));
-
   int op = in_msg_body~load_uint(32);
 
   if (op == "op::update_prize"c) {
+    throw_if(36, ~ equal_slice_bits(owner, sender_addr));
     int setPrize = in_msg_body~load_coins();
     var (owner, prize, period, results) = load_data();
 
@@ -91,6 +90,8 @@ _ recv_internal(int balance, int msg_value, cell in_msg_full, slice in_msg_body)
   }
 
   if (op == "op::send_prize"c) {
+    throw_if(36, ~ equal_slice_bits(owner, sender_addr));
+    
     var cs = in_msg_body~load_ref();
     var (first, second, third) = unpack_address(cs);
     var current_time = in_msg_body~load_uint(64);
