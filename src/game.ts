@@ -35,16 +35,16 @@ const ResultsValue: DictionaryValue<Result> = {
   serialize: (src: Result, builder) => {
     builder
       .storeAddress(src.address)
-      .storeUint(src.win, 2)
-      .storeUint(src.lose, 2)
-      .storeUint(src.tie, 2);
+      .storeUint(src.win, 16)
+      .storeUint(src.lose, 16)
+      .storeUint(src.tie, 16);
   },
   parse: (src: Slice) => {
     return {
       address: src.loadAddress(),
-      win: src.loadUint(2),
-      lose: src.loadUint(2),
-      tie: src.loadUint(2),
+      win: src.loadUint(16),
+      lose: src.loadUint(16),
+      tie: src.loadUint(16),
     };
   },
 };
