@@ -26,7 +26,6 @@ export type Result = {
 
 export type Config = {
   owner: Address;
-  prize: bigint;
   period: number;
   results: Result[];
 };
@@ -58,7 +57,6 @@ export function configToCell(config: Config): Cell {
 
   return beginCell()
     .storeAddress(config.owner)
-    .storeCoins(config.prize)
     .storeUint(config.period, 64)
     .storeDict(results)
     .endCell();
@@ -69,7 +67,6 @@ export function decodeConfig(cell: Cell): Config {
 
   return {
     owner: slice.loadAddress(),
-    prize: slice.loadCoins(),
     period: slice.loadUint(64),
     results: slice.loadDict(Dictionary.Keys.Uint(32), ResultsValue).values(),
   };
@@ -99,10 +96,6 @@ export default class Game implements Contract {
     return (await provider.get('get_owner', [])).stack.readAddress();
   }
 
-  async getPrize(provider: ContractProvider) {
-    return (await provider.get('get_prize', [])).stack.readBigNumber();
-  }
-
   async getPeriod(provider: ContractProvider) {
     return (await provider.get('get_period', [])).stack.readBigNumber();
   }
@@ -110,18 +103,6 @@ export default class Game implements Contract {
   async getConfig(provider: ContractProvider) {
     const configCell = (await provider.get('get_config', [])).stack.readCell();
     return decodeConfig(configCell);
-  }
-
-  async sendUpdatePrize(
-    provider: ContractProvider,
-    via: Sender,
-    prize: bigint | number
-  ) {
-    await provider.internal(via, {
-      value: VALUE_FOR_SEND,
-      sendMode: SendMode.PAY_GAS_SEPARATLY,
-      body: beginCell().storeUint(0x53f2c14e, 32).storeCoins(prize).endCell(),
-    });
   }
 
   async sendUpdatePeriod(
